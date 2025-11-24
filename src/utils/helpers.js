@@ -1,4 +1,4 @@
-import { WIN_PATTERNS } from './constants';
+import { WIN_PATTERNS } from '../constants';
 
 export const checkWinner = (currentField) => {
   for (const pattern of WIN_PATTERNS) {

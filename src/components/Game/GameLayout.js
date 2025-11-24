@@ -1,15 +1,30 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Information from '../Information/Information';
 import Field from '../Field/Field';
+import { store, subscribe } from '../../redux/store';
 import styles from './Game.module.css';
 
-// prettier-ignore
-const GameLayout = ({ currentPlayer, isGameEnded, isDraw, field, onCellClick, onRestart }) => {
+const GameLayout = ({ onRestart }) => {
+  const [gameState, setGameState] = useState(store.getState());
+
+  useEffect(() => {
+    const unsubscribe = subscribe(() => {
+      setGameState(store.getState());
+    });
+
+    return unsubscribe;
+  }, []);
+
   return (
     <div className={styles.game}>
       <h1 className={styles.title}>Крестики-Нолики</h1>
-      <Information currentPlayer={currentPlayer} isGameEnded={isGameEnded} isDraw={isDraw} />
-      <Field field={field} onCellClick={onCellClick} />
+      <Information
+        currentPlayer={gameState.currentPlayer}
+        isGameEnded={gameState.isGameEnded}
+        isDraw={gameState.isDraw}
+      />
+      <Field field={gameState.field} />
       <button className={styles.restartButton} onClick={onRestart}>
         Начать заново
       </button>
@@ -18,11 +33,6 @@ const GameLayout = ({ currentPlayer, isGameEnded, isDraw, field, onCellClick, on
 };
 
 GameLayout.propTypes = {
-  currentPlayer: PropTypes.oneOf(['X', '0']).isRequired,
-  isGameEnded: PropTypes.bool.isRequired,
-  isDraw: PropTypes.bool.isRequired,
-  field: PropTypes.arrayOf(PropTypes.oneOf(['', 'X', '0'])).isRequired,
-  onCellClick: PropTypes.func.isRequired,
   onRestart: PropTypes.func.isRequired,
 };
 

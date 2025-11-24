@@ -1,5 +1,5 @@
 import { ACTION_TYPES } from './actionTypes';
-import { checkWinner, checkDraw } from '../gameLogic';
+import { checkWinner, checkDraw } from '../utils/helpers';
 
 const initialState = {
   currentPlayer: 'X',
@@ -17,6 +17,7 @@ export const gameReducer = (state = initialState, action) => {
       if (state.isGameEnded || state.field[index] !== '') {
         return state;
       }
+
       const newField = [...state.field];
       newField[index] = state.currentPlayer;
 
@@ -41,22 +42,6 @@ export const gameReducer = (state = initialState, action) => {
     case ACTION_TYPES.RESTART_GAME: {
       return {
         ...initialState,
-      };
-    }
-
-    case ACTION_TYPES.SET_WINNER: {
-      return {
-        ...state,
-        winner: action.payload.winner,
-        isGameEnded: true,
-      };
-    }
-
-    case ACTION_TYPES.SET_DRAW: {
-      return {
-        ...state,
-        isDraw: action.payload.isDraw,
-        isGameEnded: action.payload.isDraw,
       };
     }
 
