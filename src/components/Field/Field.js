@@ -1,35 +1,16 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import FieldLayout from './FieldLayout';
-import { store, subscribe, dispatch } from '../../redux/store';
 import { makeMove } from '../../redux/actions';
 
-const Field = ({ field }) => {
-  const [gameState, setGameState] = useState(store.getState());
-
-  useEffect(() => {
-    const unsubscribe = subscribe(() => {
-      setGameState(store.getState());
-    });
-
-    return unsubscribe;
-  }, []);
+const Field = () => {
+  const dispatch = useDispatch();
+  const { field, isGameEnded } = useSelector((state) => state);
 
   const handleCellClick = (index) => {
     dispatch(makeMove(index));
   };
 
-  return (
-    <FieldLayout
-      field={field}
-      onCellClick={handleCellClick}
-      isGameEnded={gameState.isGameEnded}
-    />
-  );
-};
-
-Field.propTypes = {
-  field: PropTypes.arrayOf(PropTypes.oneOf(['', 'X', '0'])).isRequired,
+  return <FieldLayout field={field} onCellClick={handleCellClick} isGameEnded={isGameEnded} />;
 };
 
 export default Field;
