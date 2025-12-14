@@ -1,19 +1,24 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import InformationLayout from './InformationLayout';
 
-const Information = ({ currentPlayer, isGameEnded, isDraw }) => {
-  let status;
+class Information extends React.Component {
+  render() {
+    const { currentPlayer, isGameEnded, isDraw } = this.props;
 
-  if (isDraw) {
-    status = 'Ничья';
-  } else if (isGameEnded) {
-    status = `Победа: ${currentPlayer}`;
-  } else {
-    status = `Ходит: ${currentPlayer}`;
+    let status;
+
+    if (isDraw) {
+      status = 'Ничья';
+    } else if (isGameEnded) {
+      status = `Победа: ${currentPlayer}`;
+    } else {
+      status = `Ходит: ${currentPlayer}`;
+    }
+
+    return <InformationLayout status={status} />;
   }
-
-  return <InformationLayout status={status} />;
-};
+}
 
 Information.propTypes = {
   currentPlayer: PropTypes.oneOf(['X', '0']).isRequired,

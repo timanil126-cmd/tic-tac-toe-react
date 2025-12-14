@@ -3,12 +3,14 @@ import { Provider } from 'react-redux';
 import Game from './components/Game/Game';
 import store from './redux/store';
 
-function App() {
-  return (
-    <Provider store={store}>
-      <Game />
-    </Provider>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Game />
+      </Provider>
+    );
+  }
 }
 
 export default App;
